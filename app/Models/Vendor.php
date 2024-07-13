@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Vendor extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $guard = "web";
+    protected $guard = 'vendor';
 
     /**
      * The attributes that are mass assignable.
