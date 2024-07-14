@@ -6,12 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $guard = "web";
+    protected $guarded = [];
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -46,4 +48,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function validations() : array {
+        return  [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            'c_password' => 'required|same:password',
+        ];
+    }
+
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Permission::class, Role::class);
+    }
+
+    public function hasPermission(array $permissions): bool {
+        return $this->permissions()->whereIn('name', $permissions)->exists();
+    }
+
+    public function hasRole($role): bool {
+        return $this->where('type', $role)->exists();
+    }
+
 }

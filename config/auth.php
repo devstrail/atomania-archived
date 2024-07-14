@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Admin;
+use App\Models\Farmer;
+use App\Models\User;
+use App\Models\Vendor;
+
 return [
 
     /*
@@ -36,6 +41,10 @@ return [
     */
 
     'guards' => [
+        'api' => [
+          'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -51,7 +60,11 @@ return [
         'vendor' => [
             'driver' => 'session',
             'provider' => 'vendors'
-        ]
+        ],
+//        'sanctum' => [
+//            'driver' => 'senctum',
+//            'provider' => 'users',
+//        ]
     ],
 
     /*
@@ -72,21 +85,25 @@ return [
     */
 
     'providers' => [
+        'api' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', User::class),
+        ],
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', User::class),
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Admin::class),
+            'model' => env('AUTH_MODEL', Admin::class),
         ],
         'farmers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Farmer::class),
+            'model' => env('AUTH_MODEL', Farmer::class),
         ],
         'vendors' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Vendor::class),
+            'model' => env('AUTH_MODEL', Vendor::class),
         ]
 
         // 'users' => [
