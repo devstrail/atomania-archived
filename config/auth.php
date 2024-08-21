@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\Farmer;
+use App\Models\AdminUser;
+use App\Models\FarmerUser;
 use App\Models\User;
-use App\Models\Vendor;
+use App\Models\VendorUser;
 
 return [
 
@@ -95,15 +95,15 @@ return [
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Admin::class),
+            'model' => env('AUTH_MODEL', AdminUser::class),
         ],
         'farmers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Farmer::class),
+            'model' => env('AUTH_MODEL', FarmerUser::class),
         ],
         'vendors' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Vendor::class),
+            'model' => env('AUTH_MODEL', VendorUser::class),
         ]
 
         // 'users' => [

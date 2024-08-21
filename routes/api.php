@@ -1,15 +1,14 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\AuthUserController;
+use App\Http\Controllers\API\FarmingToolController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Middleware\ApiMiddleware;
+use App\Http\Middleware\PermissionMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
-//Route::get('/user', function (Request $request) {
-//    return $request->user();
-//})->middleware('auth:sanctum');
-
-Route::prefix('auth')->withoutMiddleware(\App\Http\Middleware\PermissionMiddleware::class)->controller(AuthController::class)->group(function() {
+Route::prefix('auth')->withoutMiddleware(PermissionMiddleware::class)->controller(AuthUserController::class)->group(function() {
     Route::post('register', 'register')->withoutMiddleware(ApiMiddleware::class);
     Route::post('login', 'login')->withoutMiddleware(ApiMiddleware::class);
     Route::middleware('auth:sanctum')->group(function () {
@@ -19,9 +18,11 @@ Route::prefix('auth')->withoutMiddleware(\App\Http\Middleware\PermissionMiddlewa
     });
 });
 
-
-
-Route::middleware('auth:sanctum')->controller(\App\Http\Controllers\API\RoleController::class)->group(function() {
+Route::middleware('auth:sanctum')->controller(RoleController::class)->group(function() {
     Route::get('roles', 'index')->middleware('permission:Admin');
 });
 
+
+Route::middleware('auth:sanctum')->controller(FarmingToolController::class)->group(function() {
+    Route::get('farming-tools', 'index')->middleware('permission:Admin,Guest|User');
+});

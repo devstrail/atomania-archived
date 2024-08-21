@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends BaseController
+class AuthUserController extends BaseController
 {
     public function register(Request $request)
     {

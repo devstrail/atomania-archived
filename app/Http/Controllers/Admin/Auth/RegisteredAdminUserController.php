@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\AdminUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+class RegisteredAdminUserController extends Controller
 {
     /**
      * Display the registration view.
@@ -32,11 +32,11 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . Admin::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . AdminUser::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $admin = Admin::create([
+        $admin = AdminUser::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

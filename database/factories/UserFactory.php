@@ -42,4 +42,20 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function withUserType($userType): static
+    {
+        return $this->state(fn (array $attributes) => [
+           'type' => $userType,
+        ]);
+    }
+
+    public function withCredentials($userType, $email, $password): static
+    {
+        return $this->state(fn (array $attributes) => [
+           'type' => $userType,
+           'email' => $email,
+           'password' => Hash::make($password),
+        ]);
+    }
 }
