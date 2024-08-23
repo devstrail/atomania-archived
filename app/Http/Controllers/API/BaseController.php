@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class BaseController extends Controller
 {
-    public function sendResponse($result, $message, $code = 200): JsonResponse
+    protected function sendResponse($result, $message, $code = 200): JsonResponse
     {
         $response = [
             'success' => true,
@@ -20,7 +20,7 @@ class BaseController extends Controller
         return response()->json($response, $code);
     }
 
-    public function sendError($error, $errorMessages = [], $code = 404): JsonResponse
+    protected function sendError($error, $errorMessages = [], $code = 404): JsonResponse
     {
         $response = [
             'success' => false,

@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthUserController;
 use App\Http\Controllers\API\FarmingToolController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\EmailController;
 use App\Http\Middleware\ApiMiddleware;
 use App\Http\Middleware\PermissionMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,13 @@ Route::middleware('auth:sanctum')->controller(RoleController::class)->group(func
 
 Route::middleware('auth:sanctum')->controller(FarmingToolController::class)->group(function() {
     Route::get('farming-tools', 'index')->middleware('permission:Admin,Guest|User');
+});
+
+Route::controller(EmailController::class)->group(function () {
+    Route::post('/send-email', 'sendMail');
+});
+
+
+Route::controller(\App\Http\Controllers\NotificationController::class)->group(function () {
+   Route::post('/send-notification', 'sendNotification');
 });
